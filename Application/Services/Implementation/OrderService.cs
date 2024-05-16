@@ -43,5 +43,16 @@ namespace Application.Services.Implementation
             return orderDTO;
         }
 
+        public async Task<Dictionary<string, List<OrderDetail>>> GetMonthlyOrderDetailsByProduct()
+        {
+            var result = await _orderRepository.GetMonthlyOrderDetailsByProduct();
+            return result;
+        }
+
+        public async Task<Dictionary<string, int>> GetMonthlyTotalSalesByProductId(Guid productId)
+        {
+            var result = await _orderRepository.GetMonthlyTotalSalesByProductId(productId);
+            return result;
+        }
     }
 }

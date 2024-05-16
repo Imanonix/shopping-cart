@@ -1,4 +1,5 @@
 ﻿using Application.DTOs;
+using Application.Services.Implementation;
 using Application.Services.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Http;
@@ -27,6 +28,23 @@ namespace Presentation.Controllers
 
             await _orderService.AddOrderAsync(orderDTO); 
             return Ok("");
+        }
+
+        [Route("/Sales/Monthly/{productId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetMonthlySales(Guid productId)
+        {
+            var result = await _orderService.GetMonthlyTotalSalesByProductId(productId);
+            return Ok(result);
+        }
+
+
+        [Route("/SalesDetail/Monthly")]
+        [HttpGet]
+        public async Task<IActionResult> GetMonthlySalesDetail()
+        {
+            var result = await _orderService.GetMonthlyOrderDetailsByProduct();
+            return Ok(result);
         }
     }
 }

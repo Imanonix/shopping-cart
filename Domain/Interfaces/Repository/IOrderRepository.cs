@@ -11,6 +11,8 @@ namespace Domain.Interfaces.Repository
     {
         Task<Order> AddOrderAsync(Order order);
         Task<OrderDetail> AddOrderAsync(OrderDetail OrderDetail);
+        Task<Dictionary<string, List<OrderDetail>>> GetMonthlyOrderDetailsByProduct();
+        public Task<Dictionary<string, int>> GetMonthlyTotalSalesByProductId(Guid productId);
         Task<bool> SaveAsync();
     }
 }

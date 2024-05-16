@@ -11,6 +11,8 @@ namespace Application.Services.Interfaces
     public interface IOrderService
     {
         Task<OrderDTO> AddOrderAsync(OrderDTO orderDTO);
+        Task<Dictionary<string, List<OrderDetail>>> GetMonthlyOrderDetailsByProduct();
+        Task<Dictionary<string, int>> GetMonthlyTotalSalesByProductId(Guid productId);
         
     }
 }

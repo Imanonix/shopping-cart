@@ -14,11 +14,13 @@ namespace Application.DTOs
         public Guid? OrderId { get; set; }
         [Required]
         public Guid ProductId { get; set; }
+
+        [Required] 
+        public string Title { get; set; } = string.Empty;
         [Required]
         public int Count { get; set; }
         [Required]
         public decimal ProductPrice { get; set; }
-
-        public ProductDTO productDTO { get; set; }
+        
     }
 }

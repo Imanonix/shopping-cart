@@ -18,6 +18,9 @@ namespace Domain.Models
         [Required]
         public Guid ProductId { get; set; }
         [Required]
+        public string Title { get; set; } = string.Empty;
+
+        [Required]
         public int Count { get; set; }
         [Required]
         public decimal ProductPrice { get; set; }

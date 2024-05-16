@@ -1,6 +1,7 @@
 ﻿using Domain.Interfaces.Repository;
 using Domain.Models;
 using Infrastructure.ShoppingCartDbContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,14 @@ namespace Infrastructure.Implementation
             await _context.Products.AddAsync(product);
             return product;
         }
+
+        public async Task<Dictionary<string, List<OrderDetail>>> GetProductById()
+        {
+            var result = await _context.OrderDetails.Include(od => od.Product).GroupBy(o => new {o.Title, o.Order.CreateDate.Month }).ToDictionaryAsync(g => $"{g.Key.Title}-{g.Key.Month}", g => g.ToList()); //.Sum(e =>  e.Count)
+            return result;
+        }
+
+
 
         public async Task<bool> SaveAsync()
         {

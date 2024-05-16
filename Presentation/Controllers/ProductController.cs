@@ -28,5 +28,15 @@ namespace Presentation.Controllers
 
             return Ok(true);
         }
+
+
+
+        [Route("/GetMonthQuantity")]
+        [HttpGet]
+        public async Task<IActionResult> GetQuantityPerMonth()
+        {
+            var result = await _productService.GroupByMonthId();
+            return Ok(result);
+        }
     }
 }

@@ -28,5 +28,14 @@ namespace Application.Services.Implementation
             productDTO = _mapper.Map<ProductDTO>(product);
             return productDTO;
         }
+
+        public async Task<Dictionary<string, List<OrderDetail>>> GroupByMonthId()
+        {
+            var result = await _productRepository.GetProductById();
+            return result;  
+        }
+
+       
+       
     }
 }

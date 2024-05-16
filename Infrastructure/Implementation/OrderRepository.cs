@@ -30,6 +30,18 @@ namespace Infrastructure.Implementation
             return OrderDetail;
         }
 
+        public async Task<Dictionary<string, List<OrderDetail>>> GetMonthlyOrderDetailsByProduct()
+        {
+            var result = await _context.OrderDetails.Include(od => od.Product).GroupBy(od => new { od.Title, od.Order.CreateDate.Month }).ToDictionaryAsync(g => $"{g.Key.Title}-{g.Key.Month}", g => g.ToList());
+            return result;
+        }
+
+        public async Task<Dictionary<string, int>> GetMonthlyTotalSalesByProductId(Guid productId)
+        {
+            var quantity = await _context.OrderDetails.Where(od => od.ProductId == productId).GroupBy(od => new { od.Product.Title, od.Order.CreateDate.Month }).ToDictionaryAsync(g => $"{g.Key.Title}-{g.Key.Month}", g => g.Sum(c => c.Count));
+            return quantity;
+        }
+
         public async Task<bool> SaveAsync()
         {
             await _context.SaveChangesAsync();
