@@ -14,6 +14,7 @@ namespace Application.Mapper
         public MapperProfile() { 
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<User,UserDTO>().ReverseMap();
+            CreateMap<TopProducts, TopProductsDTO>().ReverseMap();
         }
     }
 }

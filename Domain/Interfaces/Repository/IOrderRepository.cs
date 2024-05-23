@@ -17,6 +17,7 @@ namespace Domain.Interfaces.Repository
         Task<List<YearlyData<Decimal>>> GetYearlyRevenueAsync();
         Task<List<YearlyData<int>>> GetYearlyOrdersNumberAsync();
         Task<List<YearlyData<int>>> GetYearlyCustomersNumberAsync();
+        Task<List<TopProducts>> GetBestSellingProductsAsync();
         Task<bool> SaveAsync();
     }
 }

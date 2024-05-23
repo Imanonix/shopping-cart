@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Services.Interfaces;
+using AutoMapper;
 using Domain.Interfaces.Repository;
 using Domain.Models;
 using System;
@@ -17,9 +18,11 @@ namespace Application.Services.Implementation
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        public OrderService(IOrderRepository orderRepository)
+        private readonly IMapper _mapper;
+        public OrderService(IOrderRepository orderRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
+            _mapper = mapper;
         }
 
         public async Task<OrderDTO> AddOrderAsync(OrderDTO orderDTO)
@@ -163,6 +166,15 @@ namespace Application.Services.Implementation
             }
 
             return dict;
+        }
+
+        public async Task<List<TopProductsDTO>> GetBestSellingProductsAsync()
+        {
+            var products = await _orderRepository.GetBestSellingProductsAsync();
+            products = products.OrderByDescending(p => p.Count).Take(10).ToList();
+            var productsDTO = _mapper.Map<List<TopProductsDTO>>(products);
+
+            return productsDTO;
         }
     }
 }

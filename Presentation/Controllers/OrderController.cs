@@ -80,5 +80,13 @@ namespace Presentation.Controllers
 
             return Ok(resultArray);
         }
+
+        [Route("/bestselling-products")]
+        [HttpGet]
+        public async Task<IActionResult> GetBestSellingProducts()
+        {
+            var products = await _orderService.GetBestSellingProductsAsync();
+            return Ok(products);
+        }
     }
 }

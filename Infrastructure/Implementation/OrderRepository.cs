@@ -84,11 +84,24 @@ namespace Infrastructure.Implementation
             return result;
         }
 
+        public Task<List<TopProducts>> GetBestSellingProductsAsync()
+        {
+            var products = _context.OrderDetails.GroupBy(od => new { od.ProductId, od.Title }).Select(g => new TopProducts
+            {
+                ProductId = g.Key.ProductId,
+                Count = g.Sum(od => od.Count),
+                Title = g.Key.Title
+            }).ToListAsync();
+            return products;
+        }
+
         public async Task<bool> SaveAsync()
         {
             await _context.SaveChangesAsync();
             return true;
         }
+
+       
     }
 }
 
