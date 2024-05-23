@@ -12,7 +12,9 @@ namespace Application.Services.Interfaces
     {
         Task<OrderDTO> AddOrderAsync(OrderDTO orderDTO);
         Task<Dictionary<string, List<OrderDetail>>> GetMonthlyOrderDetailsByProduct();
-        Task<Dictionary<string, int>> GetMonthlyTotalSalesByProductId(Guid productId);
-        
+        Task<Dictionary<int, List<KeyValue<int>>>> GetYearlyOrderedProductById(Guid productId, int year);
+        Task<Dictionary<int, List<KeyValue<Decimal>>>> GetYearlyRevenueAsync();
+        Task<Dictionary<int, List<KeyValue<int>>>> GetYearlyOrdersNumberAsync();
+        Task<Dictionary<int, List<KeyValue<int>>>> GetYearlyCustomersNumberAsync();
     }
 }

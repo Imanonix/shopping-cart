@@ -30,12 +30,14 @@ namespace Presentation.Controllers
             return Ok("");
         }
 
-        [Route("/Sales/Monthly/{productId}")]
+        [Route("/yearly-ordersId")]
         [HttpGet]
-        public async Task<IActionResult> GetMonthlySales(Guid productId)
+        public async Task<IActionResult> GetYearlyOrderedProductById(string productId, int year)
         {
-            var result = await _orderService.GetMonthlyTotalSalesByProductId(productId);
-            return Ok(result);
+            Guid id = new Guid(productId);
+            var result = await _orderService.GetYearlyOrderedProductById(id, year);
+            var resultArray = result.ToArray();
+            return Ok(resultArray);
         }
 
 
@@ -45,6 +47,38 @@ namespace Presentation.Controllers
         {
             var result = await _orderService.GetMonthlyOrderDetailsByProduct();
             return Ok(result);
+        }
+        [Route("/yearly-sales")]
+        [HttpGet]
+        public async Task<IActionResult> GetYearlyRevenue()
+        {
+            var sortedResult = await _orderService.GetYearlyRevenueAsync();
+              //convert dictionary to array of object
+            var resultArray = sortedResult.ToArray();
+
+            return Ok(resultArray);
+        }
+
+        [Route("/yearly-orders")]
+        [HttpGet]
+        public async Task<IActionResult> GetYearlyOrder()
+        {
+            var sortedResult = await _orderService.GetYearlyOrdersNumberAsync();
+            //convert dictionary to array of object
+            var resultArray = sortedResult.ToArray();
+
+            return Ok(resultArray);
+        }
+
+        [Route("/yearly-customers")]
+        [HttpGet]
+        public async Task<IActionResult> GetYearlyCustomers()
+        {
+            var sortedResult = await _orderService.GetYearlyCustomersNumberAsync();
+            //convert dictionary to array of object
+            var resultArray = sortedResult.ToArray();
+
+            return Ok(resultArray);
         }
     }
 }

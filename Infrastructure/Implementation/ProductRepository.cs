@@ -24,6 +24,12 @@ namespace Infrastructure.Implementation
             return product;
         }
 
+        public async Task<List<Product>> GetAllProductAsync()
+        {
+            var products = await _context.Products.ToListAsync();
+            return products;
+        }
+
         public async Task<Dictionary<string, List<OrderDetail>>> GetProductById()
         {
             var result = await _context.OrderDetails.Include(od => od.Product).GroupBy(o => new {o.Title, o.Order.CreateDate.Month }).ToDictionaryAsync(g => $"{g.Key.Title}-{g.Key.Month}", g => g.ToList()); //.Sum(e =>  e.Count)

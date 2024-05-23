@@ -7,6 +7,6 @@ namespace Application.Services.Interfaces
     public interface IProductService
     {
         Task<ProductDTO> AddProductAsync(ProductDTO product);
-        Task<Dictionary<string, List<OrderDetail>>> GroupByMonthId();
+        Task<List<ProductDTO>> GetAllProductAsync();
     }
 }

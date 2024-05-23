@@ -4,6 +4,7 @@ using Infrastructure.ShoppingCartDbContext;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,14 +33,55 @@ namespace Infrastructure.Implementation
 
         public async Task<Dictionary<string, List<OrderDetail>>> GetMonthlyOrderDetailsByProduct()
         {
-            var result = await _context.OrderDetails.Include(od => od.Product).GroupBy(od => new { od.Title, od.Order.CreateDate.Month }).ToDictionaryAsync(g => $"{g.Key.Title}-{g.Key.Month}", g => g.ToList());
+            var result = await _context.OrderDetails.Include(od => od.Product).GroupBy(od => new { od.Title, od.Order.CreateDate.Month }).ToDictionaryAsync(g => $"{g.Key.Title}-{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(g.Key.Month)}", g => g.ToList());
             return result;
         }
 
-        public async Task<Dictionary<string, int>> GetMonthlyTotalSalesByProductId(Guid productId)
+        public async Task<List<YearlyData<int>>> GetYearlyOrderedProductById(Guid productId, int year)
         {
-            var quantity = await _context.OrderDetails.Where(od => od.ProductId == productId).GroupBy(od => new { od.Product.Title, od.Order.CreateDate.Month }).ToDictionaryAsync(g => $"{g.Key.Title}-{g.Key.Month}", g => g.Sum(c => c.Count));
-            return quantity;
+            var result = await _context.OrderDetails.Where(od => od.ProductId == productId && od.Order.CreateDate.Year == year).GroupBy(od => new { od.Order.CreateDate.Month }).Select(g => new YearlyData<int>
+            {
+                Year = year,
+                Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(g.Key.Month),
+                Amount = g.Sum(g => g.Count)
+            }).ToListAsync() ;
+            return result;
+        }
+
+        public async Task<List<YearlyData<int>>> GetYearlyCustomersNumberAsync()
+        {
+            var result = await _context.Orders.GroupBy(o => new { o.CreateDate.Year, o.CreateDate.Month }).Select(g => new YearlyData<int>
+            {
+                Year = g.Key.Year,
+                Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(g.Key.Month),
+                Amount = g.Select(o => o.UserId).Distinct().Count()
+            }).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<YearlyData<int>>> GetYearlyOrdersNumberAsync()
+        {
+            var result = await _context.Orders.GroupBy(o => new { o.CreateDate.Year, o.CreateDate.Month }).Select(g => new YearlyData<int>
+            {
+                Year = g.Key.Year,
+                Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(g.Key.Month),
+                Amount = g.Count()
+            }).ToListAsync();
+            return result;
+        }
+
+        public async Task<List<YearlyData<Decimal>>> GetYearlyRevenueAsync()
+        {
+
+            var result = await _context.Orders.GroupBy(o => new { o.CreateDate.Year, o.CreateDate.Month }).Select(g => new YearlyData<Decimal>
+            {
+                Year = g.Key.Year,
+                Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(g.Key.Month),
+                Amount = g.Sum(o => o.OrderSum)
+            }).ToListAsync();
+
+            return result;
         }
 
         public async Task<bool> SaveAsync()

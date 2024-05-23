@@ -29,13 +29,11 @@ namespace Application.Services.Implementation
             return productDTO;
         }
 
-        public async Task<Dictionary<string, List<OrderDetail>>> GroupByMonthId()
+        public async Task<List<ProductDTO>> GetAllProductAsync()
         {
-            var result = await _productRepository.GetProductById();
-            return result;  
+            var products = await _productRepository.GetAllProductAsync();
+            var productsDTO = _mapper.Map<List<ProductDTO>>(products);
+            return productsDTO;
         }
-
-       
-       
     }
 }

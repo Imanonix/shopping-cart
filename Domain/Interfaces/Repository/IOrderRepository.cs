@@ -12,7 +12,11 @@ namespace Domain.Interfaces.Repository
         Task<Order> AddOrderAsync(Order order);
         Task<OrderDetail> AddOrderAsync(OrderDetail OrderDetail);
         Task<Dictionary<string, List<OrderDetail>>> GetMonthlyOrderDetailsByProduct();
-        public Task<Dictionary<string, int>> GetMonthlyTotalSalesByProductId(Guid productId);
+        Task<List<YearlyData<int>>> GetYearlyOrderedProductById(Guid productId, int year);
+        //Task<Dictionary<int, List<Order>>> GetYearlyRevenueAsync();
+        Task<List<YearlyData<Decimal>>> GetYearlyRevenueAsync();
+        Task<List<YearlyData<int>>> GetYearlyOrdersNumberAsync();
+        Task<List<YearlyData<int>>> GetYearlyCustomersNumberAsync();
         Task<bool> SaveAsync();
     }
 }

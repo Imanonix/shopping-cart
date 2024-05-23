@@ -25,6 +25,17 @@ builder.Services.AddDbContext<CartDbContext>(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("Policy", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
+    });
+});
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -35,7 +46,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("Policy");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

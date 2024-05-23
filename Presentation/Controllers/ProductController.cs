@@ -31,11 +31,11 @@ namespace Presentation.Controllers
 
 
 
-        [Route("/GetMonthQuantity")]
+        [Route("/GetAll")]
         [HttpGet]
-        public async Task<IActionResult> GetQuantityPerMonth()
+        public async Task<IActionResult> GetAllProduct()
         {
-            var result = await _productService.GroupByMonthId();
+            var result = await _productService.GetAllProductAsync();
             return Ok(result);
         }
     }

@@ -9,5 +9,6 @@ namespace Domain.Interfaces.Repository
         Task<Product> AddProductAsyc(Product productDTO);
         Task<bool> SaveAsync();
         Task<Dictionary<string, List<OrderDetail>>> GetProductById();
+        Task<List<Product>> GetAllProductAsync();
     }
 }
