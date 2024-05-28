@@ -3,14 +3,7 @@ using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Interfaces.Repository;
 using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace Application.Services.Implementation
 {
@@ -175,6 +168,12 @@ namespace Application.Services.Implementation
             var productsDTO = _mapper.Map<List<TopProductsDTO>>(products);
 
             return productsDTO;
+        }
+
+        public async Task<List<Order>> GetRecentOrdersAsync()
+        {
+            var orders = await _orderRepository.GetRecentOrdersAsync();
+            return orders;
         }
     }
 }

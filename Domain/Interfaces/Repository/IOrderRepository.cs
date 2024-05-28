@@ -18,6 +18,7 @@ namespace Domain.Interfaces.Repository
         Task<List<YearlyData<int>>> GetYearlyOrdersNumberAsync();
         Task<List<YearlyData<int>>> GetYearlyCustomersNumberAsync();
         Task<List<TopProducts>> GetBestSellingProductsAsync();
+        Task<List<Order>> GetRecentOrdersAsync();
         Task<bool> SaveAsync();
     }
 }

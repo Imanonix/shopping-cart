@@ -94,14 +94,18 @@ namespace Infrastructure.Implementation
             }).ToListAsync();
             return products;
         }
-
+        public async Task<List<Order>> GetRecentOrdersAsync()
+        {
+            var orders = await _context.Orders.Include(o => o.OrderDetails).OrderByDescending(o => o.CreateDate).Take(100).ToListAsync();
+            return orders;
+        }
         public async Task<bool> SaveAsync()
         {
             await _context.SaveChangesAsync();
             return true;
         }
 
-       
+        
     }
 }
 

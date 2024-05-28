@@ -32,7 +32,7 @@ namespace Presentation.Controllers
 
         [Route("/yearly-ordersId")]
         [HttpGet]
-        public async Task<IActionResult> GetYearlyOrderedProductById(string productId, int year)
+        public async Task<IActionResult> GetYearlyOrderedProductById([FromQuery]string productId, int year)
         {
             Guid id = new Guid(productId);
             var result = await _orderService.GetYearlyOrderedProductById(id, year);
@@ -87,6 +87,14 @@ namespace Presentation.Controllers
         {
             var products = await _orderService.GetBestSellingProductsAsync();
             return Ok(products);
+        }
+
+        [Route("/recent-order")]
+        [HttpGet]
+        public async Task<IActionResult> GetRecentOrders()
+        {
+            var orders = await _orderService.GetRecentOrdersAsync();
+            return Ok(orders);
         }
     }
 }

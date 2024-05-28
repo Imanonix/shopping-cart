@@ -17,5 +17,6 @@ namespace Application.Services.Interfaces
         Task<Dictionary<int, List<KeyValue<int>>>> GetYearlyOrdersNumberAsync();
         Task<Dictionary<int, List<KeyValue<int>>>> GetYearlyCustomersNumberAsync();
         Task<List<TopProductsDTO>> GetBestSellingProductsAsync();
+        Task<List<Order>> GetRecentOrdersAsync();
     }
 }
